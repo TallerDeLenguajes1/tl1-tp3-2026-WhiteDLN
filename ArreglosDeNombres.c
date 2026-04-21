@@ -9,7 +9,7 @@ void MostrarPersonas(char *Vector[]) {
     }
 }
 
-void BuscarNombre(char Frase[], char *Vector[]){
+void BuscarNombreID(char Frase[], char *Vector[]){
     
     for (int i = 0; i < 5; i++){
 
@@ -18,6 +18,12 @@ void BuscarNombre(char Frase[], char *Vector[]){
         }
     }
     
+}
+
+void BuscarNombrePalabra(int Seleccion, char *Vector[]){
+    Seleccion = Seleccion - 1;
+    printf("\nEl nombre seleccionado es:\n");
+    printf("%s\n", Vector[Seleccion]);
 }
 
 int main() {
@@ -33,12 +39,28 @@ int main() {
        
     }
 
+    // Aqui empieza ID.
+    printf("Ingrese un número =<5 para ver el nombre almacenado en el.\n");
+    scanf("%d", &Seleccion);
+    if (Seleccion <= 5 && Seleccion >= 1) {
+        BuscarNombreID(Seleccion, Vector);
+    }
+
+    else{
+        printf ("No se ha encontrado el valor buscado.\n");
+    }
+
+    // Aqui termina el ID.
+
+    // Aqui empieza Palabra.
     printf("Ingrese una frase para ver coincidencias.\n");
     fgets(Frase, 20, stdin);
 
     Frase[strcspn(Frase, "\n")] = '\0'; //Para que elimine el salto de linea dentro del fgets porque sino no hayara coincidencias
 
-    BuscarNombre(Frase, Vector);
+    BuscarNombrePalabra(Frase, Vector);
+
+    // Aqui termina Palabra.
 
     MostrarPersonas(Vector);
 
