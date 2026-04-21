@@ -9,7 +9,7 @@ void MostrarPersonas(char *Vector[]) {
     }
 }
 
-void BuscarNombreID(char Frase[], char *Vector[]){
+void BuscarNombrePalabra(char Frase[], char *Vector[]){
     
     for (int i = 0; i < 5; i++){
 
@@ -20,14 +20,15 @@ void BuscarNombreID(char Frase[], char *Vector[]){
     
 }
 
-void BuscarNombrePalabra(int Seleccion, char *Vector[]){
+void BuscarNombreID(int Seleccion, char *Vector[]){
     Seleccion = Seleccion - 1;
     printf("\nEl nombre seleccionado es:\n");
     printf("%s\n", Vector[Seleccion]);
 }
 
 int main() {
-    char *Vector[5]; 
+    char *Vector[5];
+    int Eleccion;
     int Seleccion = 0;
     char Frase[20];
     
@@ -39,28 +40,39 @@ int main() {
        
     }
 
-    // Aqui empieza ID.
-    printf("Ingrese un número =<5 para ver el nombre almacenado en el.\n");
-    scanf("%d", &Seleccion);
-    if (Seleccion <= 5 && Seleccion >= 1) {
+    printf("Seleccione que desea hacer.\n");
+    printf("[1] Buscar nombre por id.\n");
+    printf("[2] Seleccionar por coincidencia.\n");
+    scanf("%d", &Eleccion);
+    fflush(stdin);
+
+
+    if(Eleccion == 1) {
+        printf("Seleccione un número <= 5.\n");
+        scanf("%d", &Seleccion);
+        fflush(stdin);
+        if (Seleccion <= 5 && Seleccion >= 1) {
         BuscarNombreID(Seleccion, Vector);
-    }
+        }
 
-    else{
+        else{
         printf ("No se ha encontrado el valor buscado.\n");
+        }
     }
 
-    // Aqui termina el ID.
+    else if(Eleccion == 2){
+        printf("Ingrese una frase para ver coincidencias.\n");
+        fgets(Frase, 20, stdin);
 
-    // Aqui empieza Palabra.
-    printf("Ingrese una frase para ver coincidencias.\n");
-    fgets(Frase, 20, stdin);
+        Frase[strcspn(Frase, "\n")] = '\0'; //Para que elimine el salto de linea dentro del fgets porque sino no hayara coincidencias
 
-    Frase[strcspn(Frase, "\n")] = '\0'; //Para que elimine el salto de linea dentro del fgets porque sino no hayara coincidencias
-
-    BuscarNombrePalabra(Frase, Vector);
-
-    // Aqui termina Palabra.
+        BuscarNombrePalabra(Frase, Vector);
+    }
+    
+    else {
+        printf("La opcion seleccionada no es valida.");
+    }
+    
 
     MostrarPersonas(Vector);
 
