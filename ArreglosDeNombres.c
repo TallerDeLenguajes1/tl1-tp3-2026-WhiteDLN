@@ -9,9 +9,21 @@ void MostrarPersonas(char *Vector[]) {
     }
 }
 
+void BuscarNombre(char Frase[], char *Vector[]){
+    
+    for (int i = 0; i < 5; i++){
+
+        if (strstr(Vector[i], Frase) != NULL){
+            printf("Se ha encontrado: %s\n", Vector[i]);
+        }
+    }
+    
+}
+
 int main() {
     char *Vector[5]; 
-    
+    int Seleccion = 0;
+    char Frase[20];
     
     for (int i = 0; i < 5; i++) {
         Vector[i] = (char*)malloc(sizeof(char) * 20); // Asignar memoria para cada nombre, respetando el maximo de 20
@@ -21,7 +33,14 @@ int main() {
        
     }
 
-    MostrarPersonas(Vector); // Mostrar los nombres ingresados
+    printf("Ingrese una frase para ver coincidencias.\n");
+    fgets(Frase, 20, stdin);
+
+    Frase[strcspn(Frase, "\n")] = '\0'; //Para que elimine el salto de linea dentro del fgets porque sino no hayara coincidencias
+
+    BuscarNombre(Frase, Vector);
+
+    MostrarPersonas(Vector);
 
     for (int i = 0; i < 5; i++){
         free(Vector[i]);
