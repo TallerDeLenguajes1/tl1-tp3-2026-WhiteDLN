@@ -94,16 +94,25 @@ void CargarClientes(){
             for (int j = 0; j < clientes[i].CantidadProductosAPedir; j++) {
                 float Subtotal = CalcularPrecio(&clientes[i].Productos[j]);
                 TotalCliente += Subtotal;
-                printf("  Producto %d: %s x%d = $%.2f\n",
+                printf("  Producto %d: %s x%d = $%.2f | Subtotal: $%.2f\n",
                        clientes[i].Productos[j].ProductoID,
                        clientes[i].Productos[j].TipoProducto,
                        clientes[i].Productos[j].Cantidad,
-                       clientes[i].Productos[j].PrecioUnitario);
+                       clientes[i].Productos[j].PrecioUnitario,
+                       Subtotal
+                    );
+                       
             }
 
             printf("  ▶ TOTAL CLIENTE: $%.2f\n", TotalCliente);
             TotalGeneral += TotalCliente;
         }
+
+        for (int i = 0; i < CantidadElegida; i++) {
+        free(clientes[i].NombreCliente);
+        free(clientes[i].Productos);  // NOTA: No liberar TiposProductos porque apunta al array global
+        }
+        free(clientes);
     }
 
     else {
