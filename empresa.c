@@ -60,32 +60,37 @@ void CargarProductos(Producto *productos, int CantidadProductoCopia){ //el segun
 void CargarClientes(){
     
     int CantidadElegida = 0;
-    printf("Seleccione la cantidad de clientes.\n");
-    scanf("%d", &CantidadElegida);
-    LimpiarBuffer();
+    int continuar = 1;
+    Cliente *clientes = NULL; // para que clientes no quede invalido en clientes
 
-    if (CantidadElegida > 0 && CantidadElegida <= 5){
+    while (continuar == 1){
+        CantidadElegida++;
+        clientes = (Cliente*) realloc(clientes, sizeof(Cliente) * CantidadElegida); //USAR REALLOC EN VEZ DE MALLOC EN ESTE CASO
+    
 
-    Cliente *clientes = (Cliente *) malloc(sizeof(Cliente) * CantidadElegida);
-        for(int i = 0; i < CantidadElegida; i++){
+    
+        
             // Asignar ID.
-            clientes[i].ClienteID = i + 1; 
+            clientes[CantidadElegida - 1].ClienteID = CantidadElegida; 
         
             //Asignar nombre.
-            clientes[i].NombreCliente = (char *)malloc(sizeof(char) * 50); //asignar memoria al arreglo char del nombre obtenido por fgets, siempre hacerlo antes.
-            printf("Ingrese el nombre del cliente[%d].\n", i+1);
-            fgets(clientes[i].NombreCliente, 50, stdin); //Recuerda esto para cuando es un puntero en estructura.
+            clientes[CantidadElegida - 1].NombreCliente = (char *)malloc(sizeof(char) * 50); //asignar memoria al arreglo char del nombre obtenido por fgets, siempre hacerlo antes.
+            printf("Ingrese el nombre del cliente[%d].\n", CantidadElegida);
+            fgets(clientes[CantidadElegida - 1].NombreCliente, 50, stdin); //Recuerda esto para cuando es un puntero en estructura.
 
             // Asignacion de una cantidad random entre el 1-10
-            clientes[i].CantidadProductosAPedir = 1 + rand()%10;
+            clientes[CantidadElegida - 1].CantidadProductosAPedir = 1 + rand()%10;
 
             //Asignar memoria para el arreglo de los productos.
-            clientes[i].Productos = (Producto*) malloc (sizeof(Producto) * clientes[i].CantidadProductosAPedir);
+            clientes[CantidadElegida - 1].Productos = (Producto*) malloc (sizeof(Producto) * clientes[CantidadElegida - 1].CantidadProductosAPedir);
         
-            CargarProductos(clientes[i].Productos, clientes[i].CantidadProductosAPedir); //AQUI SI ES IMPORTANTE QUE SE LLAME IGUAL LA SEGUNDA VARIABLE
+            CargarProductos(clientes[CantidadElegida - 1].Productos, clientes[CantidadElegida - 1].CantidadProductosAPedir); //AQUI SI ES IMPORTANTE QUE SE LLAME IGUAL LA SEGUNDA VARIABLE
 
-        }
+        printf("\n¿Desea cargar otro cliente? (1 = Sí / 0 = No): ");
+        scanf("%d", &continuar);
+        LimpiarBuffer();
 
+    }
         float TotalGeneral = 0;
 
          for (int i = 0; i < CantidadElegida; i++) {
@@ -113,9 +118,7 @@ void CargarClientes(){
         free(clientes[i].Productos);  // NOTA: No liberar TiposProductos porque apunta al array global
         }
         free(clientes);
-    }
+    
 
-    else {
-        printf("Cantidad de clientes invalida.");
-    }
+    
 }
